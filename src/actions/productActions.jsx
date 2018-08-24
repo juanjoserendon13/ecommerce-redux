@@ -7,107 +7,88 @@ import {
   FETCH_PRODUCT_FAILURE,
   SAVE_PRODUCT_INIT,
   SAVE_PRODUCT_SUCCESS,
-  SAVE_PRODUCT_FAILURE
+  SAVE_PRODUCT_FAILURE,
 } from './types';
 
-import API from '../api'
+import API from '../api';
 
 // ----- Actions creators
 export function fetchProductsSuccess(products) {
   return {
     type: FETCH_PRODUCTS_SUCCESS,
-    payload: products
-  }
+    payload: products,
+  };
 }
 
 export function fetchProductsFailure(error) {
   return {
     type: FETCH_PRODUCTS_FAILURE,
-    payload: error
-  }
+    payload: error,
+  };
 }
 
 export function fetchProductSuccess(product) {
   return {
     type: FETCH_PRODUCT_SUCCESS,
-    payload: product
-  }
+    payload: product,
+  };
 }
 
 export function fetchProductFailure(error) {
   return {
     type: FETCH_PRODUCT_FAILURE,
-    payload: error
-  }
-}
-
-export function fetchProductSuccess(product) {
-  return {
-    type: FETCH_PRODUCT_SUCCESS,
-    payload: product
-  }
+    payload: error,
+  };
 }
 
 export function saveProductSuccess(product) {
   return {
     type: SAVE_PRODUCT_SUCCESS,
-    payload: product
-  }
+    payload: product,
+  };
 }
 
 export function saveProductFailure(error) {
   return {
     type: SAVE_PRODUCT_FAILURE,
-    payload: error
-  }
+    payload: error,
+  };
 }
 
 // ----- Actions creators ASYNC
-export function fetchProducts() {
-  return async(dispatch => {
-    dispatch(() => {
-      return {
-        type: FETCH_PRODUCTS_INIT
-      }
-    })
-    try {
-      const data = await API.products.getAll();
-      return dispatch(fetchProductsSuccess(data.products))
-    } catch (error) {
-      return dispatch(fetchProductsFailure(error))
-    }
-  });
-}
+export const fetchProducts = () => async (dispatch) => {
+  dispatch(() => ({
+    type: FETCH_PRODUCTS_INIT,
+  }));
+  try {
+    const data = await API.products.getAll();
+    return dispatch(fetchProductsSuccess(data.products));
+  } catch (error) {
+    return dispatch(fetchProductsFailure(error));
+  }
+};
 
-export function fetchProduct(productId) {
-  return async(dispatch => {
-    dispatch(() => {
-      return {
-        type: FETCH_PRODUCT_INIT
-      };
-    })
-    try {
-      const data = await API.products.getSinlge(productId);
-      return dispatch(fetchProductSuccess(data.product))
-    } catch (error) {
-      return dispatch(fetchProductFailure(error))
-    }
-  });
-}
+export const fetchProduct = productId => async (dispatch) => {
+  dispatch(() => ({
+    type: FETCH_PRODUCT_INIT,
+  }));
+  try {
+    const data = await API.products.getSinlge(productId);
+    return dispatch(fetchProductSuccess(data.product));
+  } catch (error) {
+    return dispatch(fetchProductFailure(error));
+  }
+};
 
 
-export function saveProduct(product) {
-  return async(dispatch => {
-    dispatch(() => {
-      return {
-        type: SAVE_PRODUCT_INIT
-      }
-    })
-    try {
-      await API.products.save(product);
-      return dispatch(saveProductSuccess(product));
-    } catch (error) {
-      return dispatch(saveProductFailure(error));
-    }
-  })
-}
+export const saveProduct = product => async (dispatch) => {
+  dispatch(() => ({
+    type: SAVE_PRODUCT_INIT,
+  }));
+  try {
+    await API.products.save(product);
+    return dispatch(saveProductSuccess(product));
+  } catch (error) {
+    return dispatch(saveProductFailure(error));
+  }
+};

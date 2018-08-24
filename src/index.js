@@ -4,6 +4,7 @@ import { Router, Route } from 'react-router';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
+import 'bootstrap/dist/css/bootstrap.css';
 import 'babel-polyfill';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
