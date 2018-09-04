@@ -13,6 +13,8 @@ import {
 import API from '../api';
 
 // ----- Actions creators
+export const fetchProductsInit = () => ({ type: FETCH_PRODUCTS_INIT });
+
 export function fetchProductsSuccess(products) {
   return {
     type: FETCH_PRODUCTS_SUCCESS,
@@ -56,10 +58,8 @@ export function saveProductFailure(error) {
 }
 
 // ----- Actions creators ASYNC
-export const fetchProducts = () => async (dispatch) => {
-  dispatch(() => ({
-    type: FETCH_PRODUCTS_INIT,
-  }));
+export const fetchProducts = () => async dispatch => {
+  dispatch(fetchProductsInit());
   try {
     const data = await API.products.getAll();
     return dispatch(fetchProductsSuccess(data.products));

@@ -9,7 +9,7 @@ import {
 
 import initialState from './initialState';
 
-export default function productListReducer(state = initialState.productList, action) {
+export default function (state = initialState.productList, action) {
   switch (action.type) {
     case FETCH_PRODUCTS_INIT:
       return {
