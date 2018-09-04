@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchProducts, fetchProduct, saveProduct } from '../actions/productActions';
-// import * as productActions from '../actions/productActions';
+import * as productAction from '../actions/productActions';
 import ProductList from './ProductList';
 
-export class ProductListContainer extends Component {
-  constructor(props, context) {
-    super(props, context);
-  }
+class ProductListContainer extends Component {
 
   async componentWillMount() {
-    // const { fetchProducts } = this.props;
-    await this.props.fetchProducts();
+    const { fetchProducts } = this.props.productActions;
+    await fetchProducts();
   }
 
   render() {
     const { loading, products } = this.props;
+    
     return (
       <ProductList
         loading={loading}
@@ -30,7 +27,7 @@ export class ProductListContainer extends Component {
 ProductListContainer.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
-  fetchProducts: PropTypes.func.isRequired,
+  productActions: PropTypes.objectOf(PropTypes.func).isRequired,
 };
 ProductListContainer.defaultProps = {
   products: [],
@@ -41,13 +38,8 @@ const mapStateToProps = state => ({
   loading: state.productList.loading,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    fetchProducts,
-    fetchProduct,
-    saveProduct,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch => ({
+productActions : bindActionCreators(productAction,dispatch),  
+});
 
-export default connect(mapStateToProps, { fetchProducts })(ProductListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListContainer);
